@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Gilston Electric — Light Fixture Delivery Request</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #E8293A; --red-dim: #b81e2b; --bg: #0f0f0f; --surface: #1a1a1a;
+  --surface2: #242424; --border: #333; --border2: #444;
+  --text: #f0f0f0; --muted: #888; --input-bg: #111;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; touch-action: manipulation; }
+body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; font-size: 16px; min-height: 100vh; }
+.page { padding: 14px 14px 60px; max-width: 680px; margin: 0 auto; }
+
+.form-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; padding-bottom: 10px; border-bottom: 3px solid var(--red); }
+.co-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 24px; color: var(--red); letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; }
+.co-sub { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: var(--text); text-transform: uppercase; }
+.form-address { font-size: 11px; color: var(--muted); text-align: right; line-height: 1.6; }
+.form-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 22px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); margin: 12px 0 10px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+
+.form-grid { border: 1px solid var(--border2); margin-bottom: 16px; }
+.form-row { display: grid; border-bottom: 1px solid var(--border); }
+.form-row:last-child { border-bottom: none; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.form-cell { padding: 7px 10px; border-right: 1px solid var(--border); }
+.form-cell:last-child { border-right: none; }
+.form-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 3px; }
+.form-cell input, .form-cell select, .form-cell textarea { background: transparent; border: none; outline: none; color: var(--text); font-family: 'Barlow', sans-serif; font-size: 14px; width: 100%; padding: 0; resize: none; }
+.form-cell select option { background: #1a1a1a; color: #f0f0f0; }
+.form-cell textarea { min-height: 42px; line-height: 1.5; }
+input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7); cursor: pointer; }
+
+.section-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 16px 0 6px; }
+
+.fixture-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border2); margin-bottom: 10px; }
+.fixture-table th { background: var(--surface2); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--border2); border-right: 1px solid var(--border); }
+.fixture-table th:last-child { border-right: none; }
+.fixture-table td { border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); padding: 6px 8px; vertical-align: middle; }
+.fixture-table td:last-child { border-right: none; }
+.fixture-table tr:last-child td { border-bottom: none; }
+.fixture-table select, .fixture-table input { background: transparent; border: none; outline: none; color: var(--text); font-family: 'Barlow', sans-serif; font-size: 14px; width: 100%; padding: 0; }
+.fixture-table select option { background: #1a1a1a; }
+.qty-col { width: 70px; }
+.del-col { width: 44px; text-align: center; }
+.del-btn { background: none; border: 1px solid var(--border2); color: var(--muted); width: 28px; height: 28px; border-radius: 2px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+.del-btn:hover { border-color: var(--red); color: var(--red); }
+
+.add-row-btn { width: 100%; background: var(--surface2); border: 1px dashed var(--border2); color: var(--muted); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px; cursor: pointer; margin-bottom: 16px; }
+.add-row-btn:hover { border-color: var(--red); color: var(--red); }
+
+.comments-box { background: var(--surface); border: 1px solid var(--border2); padding: 10px; margin-bottom: 20px; }
+.comments-box textarea { background: transparent; border: none; outline: none; color: var(--text); font-family: 'Barlow', sans-serif; font-size: 14px; width: 100%; resize: none; min-height: 80px; line-height: 1.6; }
+.comments-box textarea::placeholder { color: var(--muted); }
+
+.submit-btn { width: 100%; background: var(--red); color: #fff; border: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 18px; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px; cursor: pointer; border-radius: 2px; margin-bottom: 24px; }
+.submit-btn:hover { background: var(--red-dim); }
+
+.approval-section { border: 1px solid var(--border2); margin-bottom: 20px; }
+.approval-header { background: var(--surface2); padding: 8px 12px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border2); }
+.approval-body { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.approval-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.approval-field { display: flex; flex-direction: column; gap: 3px; }
+.approval-field label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.approval-field input { background: var(--input-bg); border: 1px solid var(--border2); border-radius: 2px; color: var(--text); font-family: 'Barlow', sans-serif; font-size: 14px; padding: 7px 10px; outline: none; width: 100%; }
+.approval-field input:focus { border-color: var(--red); }
+.approve-btn { width: 100%; background: #16a34a; color: #fff; border: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase; padding: 13px; cursor: pointer; border-radius: 2px; }
+.approve-btn:hover { background: #15803d; }
+.approve-btn:disabled { background: #1a1a1a; color: var(--muted); border: 1px solid var(--border2); cursor: not-allowed; }
+.approval-stamp { display: none; background: #0d2e17; border: 1px solid #16a34a; border-radius: 2px; padding: 10px 14px; margin-top: 4px; }
+.approval-stamp .stamp-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; color: #86efac; letter-spacing: 0.05em; }
+.approval-stamp .stamp-line { font-size: 13px; color: #4ade80; line-height: 1.8; }
+
+@media print {
+  .add-row-btn, .del-btn, .submit-btn, .approve-btn { display: none; }
+  body { background: #fff; color: #000; }
+  .co-name { color: #E8293A; }
+  .form-grid, .fixture-table, .approval-section { border-color: #ccc; }
+  .approval-stamp { display: block !important; background: #f0fdf4; }
+  .approval-stamp .stamp-name, .approval-stamp .stamp-line { color: #15803d; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="form-header">
+    <div>
+      <div class="co-name">Gilston Electric</div>
+      <div class="co-sub">Lighting &amp; Electrical Contractors</div>
+    </div>
+    <div class="form-address">123 Industrial Ave<br>New York, NY 10001<br>(212) 555-0100</div>
+  </div>
+
+  <div class="form-title">Light Fixture Delivery Request</div>
+
+  <div class="form-grid">
+    <div class="form-row cols-2">
+      <div class="form-cell">
+        <span class="form-label">Foreman</span>
+        <input type="text" id="foreman" placeholder="Full name" autocomplete="off">
+      </div>
+      <div class="form-cell">
+        <span class="form-label">Job / Project</span>
+        <input type="text" id="project" placeholder="Project name or number" autocomplete="off">
+      </div>
+    </div>
+    <div class="form-row cols-3">
+      <div class="form-cell">
+        <span class="form-label">Date Submitted</span>
+        <input type="date" id="dateSubmitted">
+      </div>
+      <div class="form-cell">
+        <span class="form-label">Requested Delivery Date</span>
+        <input type="date" id="dateDelivery">
+      </div>
+      <div class="form-cell">
+        <span class="form-label">Location / Floor</span>
+        <input type="text" id="location" placeholder="e.g. Level 3 - Zone B" autocomplete="off">
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">Fixtures Requested</div>
+  <table class="fixture-table">
+    <thead>
+      <tr>
+        <th>Fixture Tag</th>
+        <th class="qty-col">QTY</th>
+        <th class="del-col"></th>
+      </tr>
+    </thead>
+    <tbody id="fixtureBody"></tbody>
+  </table>
+  <button class="add-row-btn" onclick="addRow()">+ Add Fixture</button>
+
+  <div class="section-label">Comments / Fixtures Not Listed Above</div>
+  <div class="comments-box">
+    <textarea id="comments" placeholder="Describe any fixtures not found in the dropdown, special instructions, or delivery notes..."></textarea>
+  </div>
+
+  <button class="submit-btn" onclick="submitForm()">Submit Request</button>
+
+  <div class="section-label">General Foreman Approval</div>
+  <div class="approval-section">
+    <div class="approval-header">GF Sign-Off</div>
+    <div class="approval-body">
+      <div class="approval-row">
+        <div class="approval-field">
+          <label>General Foreman Name</label>
+          <input type="text" id="gfName" placeholder="Full name" autocomplete="off">
+        </div>
+        <div class="approval-field">
+          <label>Date Approved</label>
+          <input type="date" id="gfDate">
+        </div>
+      </div>
+      <button class="approve-btn" id="approveBtn" onclick="approveRequest()">Approve Request</button>
+      <div class="approval-stamp" id="approvalStamp">
+        <div class="stamp-name" id="stampName"></div>
+        <div class="stamp-line" id="stampLine"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+var FIXTURES = [
+  "F1","F1 - EM","FD","FD - EM","FF","FF - EM","FF1","FF1 - EM",
+  "FK","FK - EM","FS","FS - EM","FV","FV - EM","FX","EXIT",
+  "FA-1","FA-1 - EM","FA-1A","FA-1A - EM",
+  "FA-2","FA-2 - EM","FA-2A","FA-2A - EM","FA-2C","FA-2C - EM",
+  "FA-2D","FA-2D - EM","FA-2E - EM",
+  "FA-3 - 4ft","FA-3 - 8ft","FA-3A - 8ft","FA-3A - 8ft - EM",
+  "FA-3B","FA-3C","FA-3 - FA-3C",
+  "FA-4","FA-4 - CORNERS/CABLES","FA-4A",
+  "FB-2","FB-2A","FB-3","FB-3 - CABLES","FB-4",
+  "FB-5","FB-5 - CABLES","FB-5A","FB-5A - CABLES",
+  "FB-6","FB-8","FB-8 - CABLES","FB-9","FB-9 - EM",
+  "FB-11","FB-11 - EM","FB-12","FB-13","FB-14","FB-15","FB-16","FB-17",
+  "FC-1","FC-1 - CABLES","FC-3","FC-4","FC-4A","FC-6",
+  "FC-8A","FC-8A - EM","FC-8B","FC-8B - EM","FC-8C","FC-8C - EM","FC-8D","FC-8E",
+  "FC-11","FC-11 - EM","FC-11A","FC-11A - EM","FC-11B","FC-11B - EM",
+  "FC-11C","FC-11C - EM","FC-11D",
+  "FC-12","FC-12 - EM","FC-13A","FC-13A - EM","FC-13B","FC-13B - EM",
+  "FC-13C","FC-13C - EM","FC-14","FC-14 - EM",
+  "FC-18","FC-19","FC-19A","FC-19B","FC-20","FC-20 - CABLES",
+  "FC-21","FC-21A","FC-21T","FC-22",
+  "FD-2","FD-4","FD-4 - CABLES","FE-1",
+  "FG-1","FG-1A","FG-1B","FG-2","FG-2 - EM","FG-2A","FG-2A - EM","FG-2B",
+  "FG-4","FG-4 - CABLES","FG-4 - CORNERS",
+  "FG-4A","FG-4A - CABLES","FG-4A - CORNERS","FG-4A - CUSCORNERS",
+  "FG-4B","FG-4B - CABLES","FG-4B - CORNERS",
+  "FG-4C","FG-4C - CABLES","FG-4C - CORNERS","FG-4C - CUSCORNERS",
+  "FG-6","FG-7 - 6ft","FG-7 - 8ft","FG-9","FG-9A","FG-10",
+  "FG-12","FG-12 - CABLES","FG-13","FG-13A","FG-14","FG-15","FG-16","FG-17","FG-18",
+  "FH-1","FH-1A","FH-2","FH-2A","FH-2B","FH-2C","FH-2D","FH-3","FH-3A",
+  "FH-5","FH-5 - CABLES","FH-6",
+  "FH-7","FH-7A","FH-7B","FH-7C","FH-7D","FH-7E","FH-7F",
+  "FH-9","FH-12","FH-13","FH-14","FH-14A","FH-19",
+  "FK-1 - 6ft","FK-1 - 6ft - EM","FK-1 - 8ft","FK-1 - 8ft - EM",
+  "FK-1 - 9ft","FK-1 - 10ft","FK-1 - 12ft","FK-1 - 12ft - EM",
+  "FK-1A - 6ft","FK-1A - 8ft","FK-1A - 9ft","FK-1A - 16ft","FK-1A - 20ft",
+  "FK-5","FK-5A","FL-2","FL-3",
+  "FM-1","FM-3","FM-4A","FM-6","FM-7","FM-7 - CABLES",
+  "FO-1","FO-2","FO-2 - EM","FO-3","FO-4","FO-4 - CABLES",
+  "FO-5","FO-6","FO-6A","FO-6A - EM","FO-7","FO-8","FO-9","FO-9A","FO-10",
+  "FP-1","FP-1A","FP-4","FP-6","FP-8","FP-8 - CABLES",
+  "FP-10","FP-11","FP-16","FP-17","FP-18","FP-18A","FP-19","FP-19 - CABLES",
+  "FR-1","FR-3","FR-4","FR-5A - 4ft","FR-5B - 2ft","FR-5C",
+  "FT-1","FT-1A",
+  "FX-2","FX-8","FX-12","FX-12A","FX-15",
+  "FX-20","FX-20-C","FX-20A","FX-20A-C","FX-20A-R",
+  "FX-20B","FX-20B-CR","FX-20C","FX-20C-R","FX-20D","FX-20E",
+  "FX-20F","FX-20F-R","FX-20G-C","FX-20H","FX-20J","FX-20J-C","FX-20K",
+  "FX-21","FX-25","FX-25 - EM","SV","PSR ROOM"
+];
+
+function buildSelect(selected) {
+  var opts = '<option value="">-- Select Fixture --</option>';
+  FIXTURES.forEach(function(f) {
+    opts += '<option value="' + f + '"' + (f === selected ? ' selected' : '') + '>' + f + '</option>';
+  });
+  opts += '<option value="__custom__"' + (selected === '__custom__' ? ' selected' : '') + '>Custom...</option>';
+  return opts;
+}
+
+var rowCount = 0;
+
+function addRow() {
+  var id = ++rowCount;
+  var tr = document.createElement('tr');
+  tr.id = 'row-' + id;
+  tr.innerHTML =
+    '<td>' +
+      '<select id="sel-' + id + '" onchange="handleFixtureSel(' + id + ')">' + buildSelect('') + '</select>' +
+      '<input type="text" id="custom-' + id + '" placeholder="Type fixture tag..." style="display:none;margin-top:5px;width:100%;background:var(--input-bg);border:1px solid var(--red);border-radius:2px;color:var(--text);font-family:Barlow,sans-serif;font-size:14px;padding:7px 10px;box-sizing:border-box;">' +
+    '</td>' +
+    '<td class="qty-col"><input type="number" min="1" placeholder="1"></td>' +
+    '<td class="del-col"><button class="del-btn" onclick="removeRow(' + id + ')" title="Remove">x</button></td>';
+  document.getElementById('fixtureBody').appendChild(tr);
+}
+
+function handleFixtureSel(id) {
+  var sel = document.getElementById('sel-' + id);
+  var customInput = document.getElementById('custom-' + id);
+  if (sel.value === '__custom__') {
+    customInput.style.display = 'block';
+    customInput.focus();
+  } else {
+    customInput.style.display = 'none';
+    customInput.value = '';
+  }
+}
+
+function removeRow(id) {
+  var row = document.getElementById('row-' + id);
+  if (row) row.remove();
+}
+
+function submitForm() {
+  var foreman = document.getElementById('foreman').value.trim();
+  var dateDel = document.getElementById('dateDelivery').value;
+  if (!foreman) { alert('Please enter the foreman name.'); return; }
+  if (!dateDel) { alert('Please select a requested delivery date.'); return; }
+  var rows = document.querySelectorAll('#fixtureBody tr');
+  var hasFixture = false;
+  rows.forEach(function(r) {
+    var sel = r.querySelector('select');
+    if (sel && sel.value) hasFixture = true;
+  });
+  var comments = document.getElementById('comments').value.trim();
+  if (!hasFixture && !comments) {
+    alert('Please select at least one fixture or describe what you need in the Comments field.');
+    return;
+  }
+  window.print();
+}
+
+function approveRequest() {
+  var gfName = document.getElementById('gfName').value.trim();
+  var gfDate = document.getElementById('gfDate').value;
+  if (!gfName) { alert('Please enter the General Foreman name before approving.'); return; }
+  if (!gfDate) { alert('Please select an approval date.'); return; }
+  var dateStr = new Date(gfDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  var timeStr = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  document.getElementById('stampName').textContent = gfName;
+  document.getElementById('stampLine').textContent = 'Approved on ' + dateStr + ' at ' + timeStr;
+  document.getElementById('approvalStamp').style.display = 'block';
+  var btn = document.getElementById('approveBtn');
+  btn.textContent = 'Approved';
+  btn.disabled = true;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var today = new Date().toISOString().split('T')[0];
+  document.getElementById('dateSubmitted').value = today;
+  document.getElementById('gfDate').value = today;
+  addRow();
+});
+</script>
+</body>
+</html>
